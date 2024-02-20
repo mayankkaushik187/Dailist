@@ -1,18 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ListItems.css'
 import { Button, TextField } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import SaveIcon from '@mui/icons-material/Save'
 
-const ListItems = ({ tasks, setTasks }) => {
-  const [editing, setEditing] = useState(false)
+const ListItems = ({
+  tasks,
+  setTasks,
+  editing,
+  setEditing,
+  editedValue,
+  setEditedValue,
+}) => {
   const handleItemStatusChanged = (index) => {
     const newTasks = tasks.map((item, i) => {
       if (i === index) {
         return {
           ...item,
           completed: !item.completed,
+        }
+      } else return item
+    })
+    setTasks(newTasks)
+  }
+
+  const handleEditItem = (index, text) => {
+    console.log('text aaya', text)
+    const newTasks = tasks.map((item, i) => {
+      if (i === index) {
+        return {
+          ...item,
+          todo: text,
         }
       } else return item
     })
@@ -27,10 +47,11 @@ const ListItems = ({ tasks, setTasks }) => {
         <div
           className="list-item"
           style={{ marginBottom: index + 1 === tasks.length ? 0 : '1rem' }}
+          key={index}
         >
           <Button
             sx={{
-              alignItems: 'flex-start',
+              alignItems: 'center',
               justifyContent: 'flex-start',
               padding: 0,
               width: 'max-content',
@@ -46,7 +67,7 @@ const ListItems = ({ tasks, setTasks }) => {
               sx={{ color: !todo.completed ? '#50C878' : 'gray' }}
             />
           </Button>
-          {!editing ? (
+          {!editing[index] ? (
             todo.completed ? (
               <strike
                 style={{
@@ -71,7 +92,18 @@ const ListItems = ({ tasks, setTasks }) => {
               </p>
             )
           ) : (
-            <TextField value={todo.todo} onChange={(e) => {}} />
+            <TextField
+              fullWidth
+              size="small"
+              defaultValue={todo.todo}
+              onChange={(e) => {
+                const newEditedValue = editedValue.map((item, i) => {
+                  if (i === index) return e.target.value
+                  else return item
+                })
+                setEditedValue(newEditedValue)
+              }}
+            />
           )}
           <div className="delete">
             <Button
@@ -84,8 +116,27 @@ const ListItems = ({ tasks, setTasks }) => {
                   bgcolor: 'transparent',
                 },
               }}
+              disableRipple={true}
+              disableFocusRipple={true}
+              onClick={() => {
+                const newEditing = editing.map((item, i) => {
+                  if (index === i) {
+                    return !item
+                  } else return item
+                })
+                console.log(editedValue, newEditing, editing)
+                if (editedValue[index] && !newEditing[index]) {
+                  handleEditItem(index, editedValue[index])
+                  console.log('here')
+                }
+                setEditing(newEditing)
+              }}
             >
-              <EditIcon sx={{ color: '#50c878' }} />
+              {!editing[index] ? (
+                <EditIcon sx={{ color: '#50c878' }} />
+              ) : (
+                <SaveIcon sx={{ color: '#50c878' }} />
+              )}
             </Button>
             <Button
               sx={{

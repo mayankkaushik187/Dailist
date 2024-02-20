@@ -10,6 +10,15 @@ const TodoList = () => {
   const [tasks, setTasks] = useState([])
   const [completedTasks, setCompletedTasks] = useState(0)
   const [newItem, setNewItem] = useState('')
+  const [editing, setEditing] = useState(new Array(tasks.length).fill(false))
+  const [editedValue, setEditedValue] = useState([])
+  useEffect(() => {
+    setEditing(new Array(tasks.length).fill(false))
+    const newEditedValue = tasks.map((todo) => {
+      return todo.todo
+    })
+    setEditedValue(newEditedValue)
+  }, [tasks])
   const handleAddItem = () => {
     addTodo(newItem, false, setTasks)
   }
@@ -22,13 +31,22 @@ const TodoList = () => {
     })
     setCompletedTasks(total)
   }, [tasks])
-  console.log(tasks)
+  console.log(tasks, editing)
   return (
     <div className="card">
       <div className="inner-box">
         <Today />
         <Status completedTasks={completedTasks} tasks={tasks} />
-        {tasks.length ? <ListItems tasks={tasks} setTasks={setTasks} /> : null}
+        {tasks.length ? (
+          <ListItems
+            tasks={tasks}
+            setTasks={setTasks}
+            editing={editing}
+            setEditing={setEditing}
+            editedValue={editedValue}
+            setEditedValue={setEditedValue}
+          />
+        ) : null}
         <AddItem
           tasks={tasks}
           setTasks={setTasks}

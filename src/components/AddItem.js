@@ -7,12 +7,19 @@ const AddItem = ({ tasks, setTasks, setNewItem, handleAddItem }) => {
     <div className="add">
       <TextField
         fullWidth
+        label="Add your item"
         size="small"
         sx={{
           borderRadius: '8px',
           borderColor: '#50C878',
           '& .MuiInputBase-input': {
             borderColor: '#50C878',
+          },
+          '& label.Mui-focused': {
+            color: '#50C878',
+          },
+          '&:hover label': {
+            color: '#50c878',
           },
           '& .MuiOutlinedInput-root': {
             '& fieldset': {
