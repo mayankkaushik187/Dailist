@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import './ListItems.css'
-import { Button } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
 const ListItems = ({ tasks, setTasks }) => {
-  const [newItem, setNewItem] = useState('Hello')
+  const [editing, setEditing] = useState(false)
   const handleItemStatusChanged = (index) => {
     const newTasks = tasks.map((item, i) => {
       if (i === index) {
@@ -24,7 +24,10 @@ const ListItems = ({ tasks, setTasks }) => {
   return (
     <div className="all-items">
       {tasks.map((todo, index) => (
-        <div className="list-item">
+        <div
+          className="list-item"
+          style={{ marginBottom: index + 1 === tasks.length ? 0 : '1rem' }}
+        >
           <Button
             sx={{
               alignItems: 'flex-start',
@@ -43,28 +46,32 @@ const ListItems = ({ tasks, setTasks }) => {
               sx={{ color: !todo.completed ? '#50C878' : 'gray' }}
             />
           </Button>
-          {todo.completed ? (
-            <strike
-              style={{
-                margin: 0,
-                fontSize: '1.2rem',
-                width: '100%',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {todo.todo}
-            </strike>
+          {!editing ? (
+            todo.completed ? (
+              <strike
+                style={{
+                  margin: 0,
+                  fontSize: '1.2rem',
+                  width: '100%',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {todo.todo}
+              </strike>
+            ) : (
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: '1.2rem',
+                  whiteSpace: 'nowrap',
+                  width: '100%',
+                }}
+              >
+                {todo.todo}
+              </p>
+            )
           ) : (
-            <p
-              style={{
-                margin: 0,
-                fontSize: '1.2rem',
-                whiteSpace: 'nowrap',
-                width: '100%',
-              }}
-            >
-              {todo.todo}
-            </p>
+            <TextField value={todo.todo} onChange={(e) => {}} />
           )}
           <div className="delete">
             <Button

@@ -1,12 +1,12 @@
 import React from 'react'
 import './Status.css'
 
-const Status = () => {
+const Status = ({ completedTasks, tasks }) => {
   return (
     <div className="status">
       <div className="numeric-values">
-        <strong>0</strong>
-        <strong>0</strong>
+        <strong>{tasks.length}</strong>
+        <strong>{completedTasks}</strong>
       </div>
       <div className="created-completed">
         <p style={{ margin: 0 }}>Created Tasks</p>

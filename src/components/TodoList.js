@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './TodoList.css'
 import Today from './Today'
 import Status from './Status'
@@ -8,18 +8,27 @@ import { addTodo } from '../apis/crud'
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([])
-  const [completedTasks, setCompletedTasks] = useState([])
+  const [completedTasks, setCompletedTasks] = useState(0)
   const [newItem, setNewItem] = useState('')
   const handleAddItem = () => {
     addTodo(newItem, false, setTasks)
   }
+  useEffect(() => {
+    let total = 0
+    tasks.forEach((todo) => {
+      if (todo.completed) {
+        total = total + 1
+      }
+    })
+    setCompletedTasks(total)
+  }, [tasks])
   console.log(tasks)
   return (
     <div className="card">
       <div className="inner-box">
         <Today />
-        <Status completedTask={completedTasks} tasks={tasks} />
-        <ListItems tasks={tasks} setTasks={setTasks} />
+        <Status completedTasks={completedTasks} tasks={tasks} />
+        {tasks.length ? <ListItems tasks={tasks} setTasks={setTasks} /> : null}
         <AddItem
           tasks={tasks}
           setTasks={setTasks}
