@@ -1,0 +1,13 @@
+.status{
+  display: flex;
+  flex-direction: column;
+}
+.numeric-values {
+  display: flex;
+  justify-content: space-between;
+}
+.created-completed {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+}

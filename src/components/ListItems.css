@@ -1,0 +1,13 @@
+.list-item {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+}
+.all-items {
+  overflow-y: auto;
+}
+.delete {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
