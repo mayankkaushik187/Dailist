@@ -21,6 +21,7 @@ const TodoList = () => {
   }, [tasks])
   const handleAddItem = () => {
     addTodo(newItem, false, setTasks)
+    setNewItem('')
   }
   useEffect(() => {
     let total = 0
@@ -50,6 +51,7 @@ const TodoList = () => {
         <AddItem
           tasks={tasks}
           setTasks={setTasks}
+          newItem={newItem}
           setNewItem={setNewItem}
           handleAddItem={handleAddItem}
         />

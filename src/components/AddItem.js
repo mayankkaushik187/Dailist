@@ -2,13 +2,14 @@ import { Button, TextField } from '@mui/material'
 import React from 'react'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import './AddItem.css'
-const AddItem = ({ tasks, setTasks, setNewItem, handleAddItem }) => {
+const AddItem = ({ tasks, setTasks, newItem, setNewItem, handleAddItem }) => {
   return (
     <div className="add">
       <TextField
         fullWidth
         label="Add your item"
         size="small"
+        value={newItem}
         sx={{
           borderRadius: '8px',
           borderColor: '#50C878',
